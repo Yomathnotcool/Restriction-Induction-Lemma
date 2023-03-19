@@ -1,0 +1,204 @@
+\documentclass[12pt,a4paper,english]{article}
+\usepackage[a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[OT2,T1]{fontenc}
+\usepackage[keeplastbox]{flushend}
+\usepackage{tikz-cd}
+
+\usepackage{babel}
+\usepackage{dsfont}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage{color}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{natbib}
+
+\geometry{top=3cm,bottom=3cm,left=2.5cm,right=2.5cm}
+\setlength\parindent{0pt}
+\renewcommand{\baselinestretch}{1.3}
+
+\newcommand\restr[2]{{% we make the whole thing an ordinary symbol
+  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+  #1 % the function
+  \vphantom{\big|} % pretend it's a little taller at normal size
+  \right|_{#2} % this is the delimiter
+  }}
+  
+% definition of the "structure"
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{coro}[thm]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{defi}[thm]{Definition}
+\newtheorem*{ex}{Example}
+\newtheorem*{rem}{Remark}
+\newtheorem{cla}[thm]{Claim}
+\newtheorem{step}{Step}
+
+
+\title{Restriction-Induction Lemma}
+\date{March 15th, 2021}
+\author{Deng Zhiyuan}
+
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+    The goal of this note is to prove the Restriction-Induction lemma \cite{bushnell2006local}.
+\end{abstract}
+\vspace{0.5cm}
+\section{Preparation and Notions}
+$G=GL_{2}(F)$, in which $F$ is a non Archimedean local field. And for some important subgroups of $G$, we denote as following:
+\begin{equation*}
+    B=
+    \bigg\{\begin{pmatrix} a & b \\ 0 & d \end{pmatrix}\in G\bigg\},
+      N=
+    \bigg\{\begin{pmatrix} 1 & b \\ 0 & 1 \end{pmatrix}\in G\bigg\},
+        T=
+    \bigg\{\begin{pmatrix} a & 0 \\ 0 & d \end{pmatrix}\in G\bigg\}.
+\end{equation*}
+The subgroup $B$ is so called the standard BOrel subgroup of $G$. $N$ is the unipotent radical of $B$. $T$ is the standard split maximal torus of $G$. And Denote 
+\begin{equation*}
+        Z=
+    \bigg\{\begin{pmatrix} a & 0 \\ 0 & a \end{pmatrix}\in G\bigg\}
+\end{equation*}
+as the centre of G. $Z$ is canonically isomorphic to $F^{\times}$. Standard notations and facts\cite{bushnell2006local}.
+
+Next, Let's review the smooth inductions.
+This is standard notation and fact \cite{bushnell2006local}.
+Let $H$ be a closed subgroup of $G$. Then there is the smooth induction functor.
+\begin{align*}
+    Rep(H)&\rightarrow Rep(G)\\
+    (\sigma, W)&\mapsto (Ind^{G}_{H}(\sigma), Ind^{G}_{H}(W)) 
+\end{align*}
+where $Ind^{G}_{H}(W)$ is the space of functions $f: G\rightarrow W$ satisfying:
+\begin{enumerate}
+    \item $f(hg)=\sigma(h)f(g)$, for every $(h,g)\in H\times G$;
+    \item There exists a compact open subgroup $K $ of $G$ such that $f(gk)=f(g)$ for every $k\in K,\ g\in G$.
+\end{enumerate}
+
+The induced representation $Ind^{G}_{H}(\sigma)$ on $Ind^{G}_{H}(W)$ is given by right translation:
+\begin{equation*}
+    (Ind^{G}_{H}(\sigma, g)f)(g')=f(g'g),\ \ \forall (g, g')\in G\times G.
+\end{equation*}
+
+To understand the following result, we will need Jacquet module.
+Again this is very standard notation from \cite{bushnell2006local}.
+
+Let $(\pi, V)$ be a smooth representation of $G$. 
+\begin{equation*}
+    V(N)=<\pi(u)v-v | (v, u)\in V\times N>.
+\end{equation*}
+And $V_{N}=V/ V(N)$ for the coinvariant space. And it inherits a representation $\pi_{N}$ of $B/N=T$, which is smooth. We call $(\pi_{N}, V_{N})$ the jacquet module of $(\pi, V)$ at $N$. Note that for every $a\in A$, the operator $\pi(a)$ preserves the subspace $V(N)$. The jacquet functor is a slight twist of this construction, and it's denoted as
+\begin{equation*}
+    (J_{N}(\pi), J_{N}(V))=(\delta^{-1/2}_{B}\otimes \pi_{N},\delta^{-1/2}_{B}\otimes V_{N}),
+\end{equation*}
+we recall that the modular character $\delta_{B}$ is given by 
+\begin{equation*}
+       \delta_{B} \begin{pmatrix} a_{1} & x \\ 0 & a_{2} \end{pmatrix}=|\frac{a_{1}}{a_{2}}|_{p}.
+\end{equation*}
+The most important property of Jacquet functor is as following:
+\begin{prop}
+The jacquet functor is exact that is for every short exact sequence of smooth $B-$ representations
+\begin{equation*}
+    0\rightarrow U\rightarrow V\rightarrow W\rightarrow 0
+\end{equation*}
+the induced sequence \begin{equation*}
+    0\rightarrow J_{N}(U)\rightarrow J_{N}(V)\rightarrow J_{N}(W)\rightarrow 0
+\end{equation*}
+is also exact [c.f. Prof. Rapheal's course note].
+\end{prop}
+\begin{lem}\label{lem2}
+This lemma is from section 8.1 in \cite{bushnell2006local}.
+
+Let $\mu_{N}$ be a Haar measure on $N$ and $\nu$ a character of $N$.
+\begin{enumerate}
+    \item Let $(\pi, V)$ be a smooth representation of $N$ and $v\in V$. The vector $v$ lies in $V(\nu)$ if and only if there is a compact open subgroup $N_{0}$ of $N$ such that 
+    \begin{equation*}
+        \int_{N_{0}}\nu(n)^{-1}\pi(n)vd\mu_{N}(n)=0.
+    \end{equation*}
+    \item The process $(\pi, V)\mapsto V_{\nu}$ is an exact functor from $Rep(N)$ to the category of complex vector spaces.
+\end{enumerate}
+\end{lem}
+\section{Main Result}
+\textbf{My job here is to fill in the blank of the proof to give more detail, but not create a new proof. So there are definitely words and ideas that are as same as in section 9.3 of \cite{bushnell2006local}.}
+\begin{lem}
+\textbf{Restriction-Induction Lemma}\cite{bushnell2006local} Let $(\sigma, U)$ be a smooth representation of $T$ and set $(\Sigma, X)=Ind^{G}_{B}\sigma$. There is an exact sequence of representations of $T$:
+\begin{equation}
+    0\rightarrow \sigma^{w}\otimes \sigma^{-1}_{B} \rightarrow \Sigma_{N}\xrightarrow{\alpha_{\sigma}}\ \sigma \rightarrow 0.
+\end{equation}
+\end{lem}
+\begin{proof}
+By the definition of induction, we can write the explicit form of $X$:
+\begin{equation*}
+    X:=\{f:G\rightarrow U| f(bg)=\sigma(b)f(g), (b,g)\in B\times G  \}
+\end{equation*}
+And there exists a compact-open subgroup $K\leq G$ such that $f(gk)=f(g)$ for every $(g,k)\in G\times K$. 
+The idea to prove this, Not rigorous, it's to show that $X_{N}\cong(\sigma^{w}\otimes\delta^{-1}_{B})\times \sigma$. By early in course of representation theory, we have already known that there exists a canonical map $\alpha_{\sigma}:X\rightarrow U$ by Frobenius reciprocity. And we use the same notation for $X_{N}\rightarrow U$ as $\alpha_{\sigma}$, which is a $T$-homomorphism. And it's induced by $\alpha_{\sigma}:X\rightarrow U$.  
+
+\begin{lem}\label{lem1}
+Given $H$ as a subgroup of locally profinite $G$, let $(\sigma, W)$ be a smooth representation of $H$, then $\alpha_{\sigma}: Ind^{G}_{H}\sigma \rightarrow W$ which is defined as $f\rightarrow f(1)$ is surjective.
+\end{lem}
+\begin{proof}
+First, we take an element $w\in W$. Then $\exists $ open compact subgroup $k'$ of $H$ that fixes $w$, since it's smooth. And this $K'$ is an open neighborhood of identity element $e$ in $H$. As we know $H$ as a subgroup of $G$, there is some open subset $U$ of $G$ such that $H\bigcap U=K'$. As $G$ is locally profinite, one can take $K$ to be an open compact subgroup of $G$ containd in $U$, then we have $H\bigcap K\subset K'$. Now the set of right $K$-cosets $G/K$ is discrete and it has a left $H-$ action. We may write a $H-$ stable decomposition:
+\begin{equation*}
+    G/K=HK/K\bigcup X
+\end{equation*}
+which is disjoint union and $X\subset G/K$ is some $H-$ stable subset. Now simply define a function $\tilde{f}:G/K\rightarrow \mathbb{C}$ by setting $\tilde{ f}(x)=0$ for $x\in X$ and $\tilde{f}(hk)=\sigma(h)w$ for $h\in H, k\in K$. Note that this is well-defined because $H\bigcap K\subset K'$ fixes $w$. Because $G/K$ is discrete, $\tilde{f}$ is continuous. By the definition of $\tilde{f}$, it satisfies $\tilde{f}(hg)=\sigma(h)\tilde{f}$ for any $h\in H, g\in G$. Define $f; G\rightarrow \mathbb{C}$ by composing $\tilde{f}$ with the projection $G\rightarrow G/K$. Then $f\in Ind^{G}_{H}\sigma$ and $f(1)=w$.
+\end{proof}
+
+Then we can set $V=Ker\alpha_{\sigma}$, and $V$ provides a smooth representation of $B$. For $V$ as a representation of $B$, so it makes sense to take the $N$-coinvariants which are denoted by $V_{N}$ as same as usual standard notation.By \ref{lem1} and the exactness of Jacquet functor, there is an exact sequence
+\begin{equation*}
+    0\rightarrow V_{N}\rightarrow X_{N}\rightarrow U\rightarrow0.
+\end{equation*}
+
+Now we are half way done, the enxt goal is to prove $$V_{N}\cong \sigma^{w}\otimes\delta^{-1}_{B}$$.
+
+By Bruhat decomposition, we have a disjoint decomposition
+\begin{equation*}
+    G=B\bigcup BwN
+\end{equation*}
+where $w=
+    \begin{pmatrix} 1 & 0\\ 0 & 1 \end{pmatrix}.$ Check Section 5.2 in \cite{bushnell2006local} for more detail.
+    
+Using this decomposition,    for $f\in     X:=\{f:G\rightarrow U| f(bg)=\sigma(b)f(g), (b,g)\in B\times G  \}$, it lies in $V$ if and only if there is a compact open subgroup $N_{0}$ of $N$ (depending on $f$) such that $supp(f)\subset BwN_{0}$. For this lemma, we use the result in section 9.3 in \cite{bushnell2006local}, we don't need to prove this again, since my job is filling in the blank of the proof.
+
+Let $f\in V=Ker\alpha_{\sigma}$, we can define a function $f_{N}: T\rightarrow U$ by 
+\begin{equation*}
+    f_{N}(x)=\int_{N}f(xwn)dn=\sigma(x)f_{N}(1),\ \ \ x\in T.
+\end{equation*}
+
+By \ref{em2}, the kernel of the map $f\mapsto f_{N}$ is $V(N)$, and $f\in V$, we have
+\begin{align*}
+    (tf)_{N}(x)=&\int_{N} f(xwnt)dn \\
+    =& \int_{N}f(xwtnt^{-1}t)dtnt^{-1}\\
+    =& \delta_{B}(t^{-1})\int_{N}f(xwtw^{-1}wn)dn\\
+    =& \delta_{B}(t^{-1})\int_{N}f(xt^{w}wn)dn \\
+    =& \delta^{-1}_{B}(t)(t^{w}f_{N})(x)
+\end{align*}
+Thus $f\mapsto f_{N}(1)$ is a $B$-homomorphism $V\rightarrow \sigma^{w}\otimes\delta_{B}^{-1}$, which induces the isomorphism we want.
+
+
+
+
+
+
+
+\end{proof}
+
+
+
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{bib.bib}
+\end{document}
